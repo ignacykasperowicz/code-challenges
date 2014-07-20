@@ -13,7 +13,7 @@ This is a simple evaluation problem. You'll code Bob, a simple message responder
 * He answers 'Whatever.' to anything else.
 * Write tests to asset the above is working correctly.
 
-*Do not use “if”, “unless” or “case” in your code.*
+*Do not use “if”, “unless” or “case” in your response code.*
 
 Coffeescript / Backbone.js
 ===
