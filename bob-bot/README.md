@@ -22,4 +22,4 @@ This is a simple real time, browser based chat room to interface with Bob as fol
 * Public Lobby - Each user joining the lobby should be assigned a numbered username (e.g. User1234).
 * Private Messages - Each user should be able to send/receive private messages.
 * Bob should be able to listen, and respond to both the public lobby, and his own private messages.
-* Write tests to asset the above is working correctly.
+* Write tests to assess the above is working correctly.
