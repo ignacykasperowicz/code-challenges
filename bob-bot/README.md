@@ -1,5 +1,5 @@
 This is a two part test. The first part is to write a very simple chat bot with some very specific canned responses. The
-second is to write a realtime chat application to interface with the chat bot. The required technologies here are Ruby, Coffeescript, and Backbone.js outside of that you may use any gems or npm modules to assist in the completion.
+second is to write a realtime chat application to interface with the chat bot. The required technologies here are Ruby, Coffeescript / Javscript outside of that you may use any gems or npm modules to assist in the completion.
 
 Ruby
 ===
@@ -14,7 +14,7 @@ This is a simple evaluation problem. You'll code Bob, a simple message responder
 
 *Do not use “if”, “unless” or “case” in your response code.*
 
-Coffeescript / Backbone.js
+Coffeescript / Javascript
 ===
 
 This is a simple real time, browser based chat room to interface with Bob as follows:
