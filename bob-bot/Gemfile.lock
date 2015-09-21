@@ -6,9 +6,11 @@ GEM
       http_parser.rb (~> 0.6.0)
     eventmachine (1.0.8)
     http_parser.rb (0.6.0)
+    minitest (5.8.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   em-websocket
+  minitest
