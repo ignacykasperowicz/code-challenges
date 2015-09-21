@@ -6,7 +6,7 @@ class Parser
   def initialize
     @sourced = []
     @mapped = []
-    @reversed = {}
+    @reversed = Hash.new {|h,k| h[k]=[]}
     @filtered = {}
   end
 
@@ -31,18 +31,13 @@ class Parser
   def map
     sourced.each do |word|
       split = split(word)
-      unless split.empty?
-        split.each do |e|
-          @mapped << [word, e]
-        end
-      end
+      split.each { |e| @mapped << [word, e] } unless split.empty?
     end
   end
 
   def reverse
-    @mapped.map!(&:reverse)
-    mapped.each do |pair|
-      @reversed[pair.first] = [] unless @reversed[pair.first]
+    mapped.map(&:reverse).each do |pair|
+      # @reversed[pair.first] = [] unless @reversed[pair.first]
       @reversed[pair.first] << pair.last
     end
   end
@@ -54,10 +49,8 @@ class Parser
   end
 
   def save
-    sequences = filtered.keys
-    words = filtered.values.flatten
-    File.open('words.txt', 'w') { |file| file.puts(words) }
-    File.open('sequences.txt', 'w') { |file| file.puts(sequences) }
+    File.open('words.txt', 'w') { |file| file.puts(filtered.values.flatten) }
+    File.open('sequences.txt', 'w') { |file| file.puts(filtered.keys) }
   end
 end
 
