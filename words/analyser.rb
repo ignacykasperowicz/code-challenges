@@ -1,6 +1,8 @@
 class Parser
   attr_accessor :sourced, :mapped, :reversed, :filtered
 
+  WINDOW_SIZE = 4
+
   def initialize
     @sourced = []
     @mapped = []
@@ -23,7 +25,7 @@ class Parser
   end
 
   def split word
-    (0..word.length - 4).inject([]) { |ret, index| ret << word[index..index + 3] }
+    (0..word.length - WINDOW_SIZE).inject([]) { |ret, index| ret << word[index..index + WINDOW_SIZE-1] }
   end
 
   def map
