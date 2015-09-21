@@ -2,5 +2,7 @@
   "name": "chat-app",
   "version": "0.0.1",
   "description": "chat-app",
-  "dependencies": {}
+  "dependencies": {
+    "express": "^4.13.3"
+  }
 }
