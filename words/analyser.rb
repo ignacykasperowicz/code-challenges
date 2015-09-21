@@ -19,17 +19,17 @@ class Parser
   private
 
   def read
-    @sourced = File.foreach('dictionary.txt').inject([]) { |r, l| r << l.strip }
+    @sourced = File.foreach('dictionary.txt').inject([]) { |arr, line| arr << line.strip }
   end
 
   def split word
-    (0..word.length - 4).inject([]) { |ret,index| ret << word[index..index + 3] }
+    (0..word.length - 4).inject([]) { |ret, index| ret << word[index..index + 3] }
   end
 
   def map
     sourced.each do |word|
       split = split(word)
-      split.each { |e| @mapped << [word, e] } unless split.empty?
+      split.each { |sequence| @mapped << [word, sequence] } unless split.empty?
     end
   end
 
@@ -38,11 +38,11 @@ class Parser
   end
 
   def filter
-    reversed.each { |key, value| @filtered[key] = value unless value.size > 1 }
+    reversed.each { |sequence, words| @filtered[sequence] = words.flatten unless words.size > 1 }
   end
 
   def save
-    File.open('words.txt', 'w') { |file| file.puts(filtered.values.flatten) }
+    File.open('words.txt', 'w') { |file| file.puts(filtered.values) }
     File.open('sequences.txt', 'w') { |file| file.puts(filtered.keys) }
   end
 end
