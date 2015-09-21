@@ -51,5 +51,4 @@ class Parser
   end
 end
 
-parser = Parser.new
-parser.parse
+Parser.new.parse
