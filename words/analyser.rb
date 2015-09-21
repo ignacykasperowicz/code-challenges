@@ -1,5 +1,3 @@
-require 'set'
-
 class Parser
   attr_accessor :sourced, :mapped, :reversed, :filtered
 
@@ -37,7 +35,6 @@ class Parser
 
   def reverse
     mapped.map(&:reverse).each do |pair|
-      # @reversed[pair.first] = [] unless @reversed[pair.first]
       @reversed[pair.first] << pair.last
     end
   end
