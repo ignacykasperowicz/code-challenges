@@ -6,7 +6,7 @@ class Parser
   def initialize
     @sourced = []
     @mapped = []
-    @reversed = Hash.new {|h,k| h[k]=[]}
+    @reversed = Hash.new { |h, k| h[k] = [] }
     @filtered = {}
   end
 
@@ -24,8 +24,8 @@ class Parser
     @sourced = File.foreach('dictionary.txt').inject([]) { |arr, line| arr << line.strip }
   end
 
-  def split word
-    (0..word.length - WINDOW_SIZE).inject([]) { |ret, index| ret << word[index..index + WINDOW_SIZE-1] }
+  def split(word)
+    (0..word.length - WINDOW_SIZE).inject([]) { |ret, index| ret << word[index..index + WINDOW_SIZE - 1] }
   end
 
   def map
