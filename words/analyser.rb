@@ -34,15 +34,11 @@ class Parser
   end
 
   def reverse
-    mapped.map(&:reverse).each do |pair|
-      @reversed[pair.first] << pair.last
-    end
+    mapped.map(&:reverse).each { |pair| @reversed[pair.first] << pair.last }
   end
 
   def filter
-    reversed.each do |key, value|
-      @filtered[key] = value unless value.size > 1
-    end
+    reversed.each { |key, value| @filtered[key] = value unless value.size > 1 }
   end
 
   def save
