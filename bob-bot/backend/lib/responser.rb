@@ -16,7 +16,7 @@ class Responser
   end
 
   def capitals?(msg)
-    !(msg.scan /^[A-Z\s]+$/).empty?
+    !(msg.scan /^[A-Z\s]+$/).empty? && !msg.empty?
   end
 
   def not_matched?(msg)
