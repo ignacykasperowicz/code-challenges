@@ -57,3 +57,10 @@ $ node index.js
 ```
 
 Open web page at `http://localhost:3000`
+
+## Usage
+
+ * `chat` shows each message send to chat room with username as a prefix
+ * `bob-bot` can be asked by using `bot` mention in message e.g. `bot how was your day?`
+ * `chat` and `bot-bot` uses clean WS to interact
+ * `Socket.io` is used for communication between users
