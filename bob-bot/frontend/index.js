@@ -9,14 +9,26 @@ app.get('/', function(req, res){
 });
 
 var userName = function() {
-  return 'user' + Math.floor(Math.random()*9000);
+  return 'user' + Math.floor(1000 + Math.random() * 9000);
+};
+
+var findUserBySocketId = function(socket) {
+  return _.find(users, function(user) {
+    return user.socket == socket;
+  });
 };
 
 io.on('connection', function(socket){
-  users.push({name: userName(), socket: socket.id});
+  users.push({
+    name: userName(),
+    socket: socket.id
+  });
 
   io.emit('connected',
-    { users: users, user: socket.id }
+    {
+      users: users,
+      user: socket.id
+    }
   );
 
   socket.on('disconnect', function() {
@@ -25,16 +37,22 @@ io.on('connection', function(socket){
     });
 
     io.emit('disconnected',
-      { users: users }
+      {
+        users: users
+      }
     );
   });
 
-  socket.on('chat message', function(data){
-    var user = _.find(users, function(user) {
-      return user.socket == data.socket;
-    });
+  socket.on('send-private-message', function(data) {
+    var user = findUserBySocketId(data.from)
     data['name'] = user.name;
-    io.emit('chat message', data);
+    io.to(data.to).emit('receive-private-message', data);
+  });
+
+  socket.on('send-public-message', function(data){
+    var user = findUserBySocketId(data.from)
+    data['name'] = user.name;
+    io.emit('receive-public-message', data);
   });
 });
 
