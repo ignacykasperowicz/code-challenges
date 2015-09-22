@@ -68,7 +68,7 @@
 
       $('form').submit(function() {
         var msg = $('#m').val();
-        if(msg.indexOf("bot") > -1) {
+        if(msg.indexOf("bot") == 0) {
           ws.send(_.trimLeft(msg.replace('bot', '')));
         } else {
           socket.emit('chat message', { socket: socket.io.engine.id, msg: msg });
