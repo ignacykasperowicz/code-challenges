@@ -47,6 +47,14 @@
     <script>
       var socket = io();
 
+      var ws = new WebSocket("ws://localhost:8080");
+      ws.onmessage = function(message) {
+        showMesage({
+          name: 'bob-bot',
+          msg: message.data
+        });
+      };
+
       var refreshUsersList = function(users) {
         $('#users').text('');
         _.each(users, function(user) {
@@ -54,14 +62,23 @@
         });
       };
 
+      var showMesage = function(data) {
+        $('#messages').append($('<li>').text(data.name + ': ' + data.msg));
+      };
+
       $('form').submit(function() {
-        socket.emit('chat message', { socket: socket.io.engine.id, msg: $('#m').val() });
+        var msg = $('#m').val();
+        if(msg.indexOf("bot") > -1) {
+          ws.send(_.trimLeft(msg.replace('bot', '')));
+        } else {
+          socket.emit('chat message', { socket: socket.io.engine.id, msg: msg });
+        }
         $('#m').val('');
         return false;
       });
 
       socket.on('chat message', function(data) {
-        $('#messages').append($('<li>').text(data.name + ': ' + data.msg));
+        showMesage(data);
       });
 
       socket.on('connected', function(users) {
