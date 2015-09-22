@@ -2,22 +2,7 @@
 <html>
   <head>
     <title>Chat app</title>
-    <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { font: 13px Helvetica, Arial; }
-      form { padding: 3px; position: fixed; bottom: 0; width: 100%; }
-      #messages, #users { list-style-type: none; margin: 0; padding: 0; }
-      #messages, #users li { padding-left: 5px; background: #eee; }
-      #users { border-left: 1px solid black; }
-      .container-fluid { padding: 0 !important; }
-      .messages { padding-right: 0 !important; }
-      .users { padding-left: 0 !important; }
-      .error { color: red; }
-      .username { cursor: pointer; }
-      .active { font-weight: bold; }
-      .private { background: orange; }
-      .bot { background: #90C3D4; }
-    </style>
+    <link rel="stylesheet" href="http://localhost:3000/styles.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   </head>
   <body>
@@ -50,133 +35,7 @@
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.js"></script>
-    <script>
-      var socket = io();
-      var allUsers;
-
-      var showPublicMesage = function(data) {
-        $('#messages').append($('<li>').text(data.name + ': ' + data.msg));
-      };
-
-      var showPrivateMessage = function(data) {
-        $('#messages').append($('<li class="private">').text(data.name + ': ' + data.msg));
-      }
-
-      var showBotMessage = function(data) {
-        $('#messages').append($('<li class="bot">').text(data.name + ': ' + data.msg));
-      };
-
-      var showErrorMessage = function(msg) {
-        $('#messages').append($('<li class="error">').text(msg));
-      };
-
-      var isBotMessage = function(msg) {
-        return msg.indexOf("bot") == 0
-      };
-
-      var isPrivateMessage = function(msg) {
-        return msg.indexOf("user") == 0
-      };
-
-      var toUserName = function(msg) {
-        return _.first(msg.split(' '));
-      };
-
-      var findUserBySocketId = function(socket) {
-        return _.find(allUsers, function(user) {
-          return user.socket == socket;
-        });
-      };
-
-      var findUserByUserName = function(name) {
-        return _.find(allUsers, function(user) {
-          return user.name == name;
-        });
-      };
-
-      var refreshUsersList = function(users) {
-        $('#users').text('');
-        _.each(users, function(user) {
-          var activeClass = '';
-          if(user.name == findUserBySocketId(currentUserSocketId()).name) {
-            activeClass = 'active'
-          }
-          $('#users').append($('<li class="username ' + activeClass + '">').text(user.name));
-        });
-      };
-
-      var currentUserSocketId = function() {
-        return socket.io.engine.id;
-      };
-
-      var trimBotMessage = function(msg) {
-        return _.trimLeft(msg.replace('bot', ''));
-      };
-
-      var trimPrivateMessage = function(msg) {
-        return _.trimLeft(msg.replace(/user\d{4}/, ''));
-      };
-
-      $('#users').on('click', 'li.username', function() {
-        $('#m').val($(this).text() + ' ');
-        $('#m').focus();
-      });
-
-      var ws = new WebSocket("ws://localhost:8080");
-      ws.onmessage = function(message) {
-        showBotMessage({
-          name: 'bob-bot',
-          msg: message.data
-        });
-      };
-
-      $('form').submit(function() {
-        var msg = $('#m').val();
-
-        if(isBotMessage(msg)) {
-          ws.send(trimBotMessage(msg));
-        } else if(isPrivateMessage(msg)) {
-          var toUser = findUserByUserName(toUserName(msg));
-          if(toUser) {
-            if(toUser.socket != currentUserSocketId()) {
-              socket.emit('send-private-message', {
-                from: currentUserSocketId(),
-                to: toUser.socket,
-                msg: trimPrivateMessage(msg)
-              });
-            } else {
-              showErrorMessage('You cannot send private message to yourself.');
-            }
-          } else {
-            showErrorMessage('User ' + toUserName(msg) + ' does not exists.');
-          }
-        } else {
-          socket.emit('send-public-message', {
-            from: currentUserSocketId(),
-            msg: msg
-          });
-        }
-
-        $('#m').val('');
-        return false;
-      });
-
-      socket.on('receive-private-message', function(data) {
-        showPrivateMessage(data);
-      });
-
-      socket.on('receive-public-message', function(data) {
-        showPublicMesage(data);
-      });
-
-      socket.on('connected', function(users) {
-        allUsers = users.users;
-        refreshUsersList(users.users);
-      });
-
-      socket.on('disconnected', function(users) {
-        refreshUsersList(users.users);
-      });
-    </script>
+    <script src="http://localhost:3000/helpers.js"></script>
+    <script src="http://localhost:3000/scripts.js"></script>
   </body>
 </html>
