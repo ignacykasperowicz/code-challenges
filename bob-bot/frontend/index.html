@@ -50,25 +50,25 @@
       var refreshUsersList = function(users) {
         $('#users').text('');
         _.each(users, function(user) {
-          $('#users').append($('<li>').text(user));
+          $('#users').append($('<li>').text(user.name));
         });
       };
 
-      $('form').submit(function(){
-        socket.emit('chat message', { user: socket.io.engine.id, msg: $('#m').val() });
+      $('form').submit(function() {
+        socket.emit('chat message', { socket: socket.io.engine.id, msg: $('#m').val() });
         $('#m').val('');
         return false;
       });
 
-      socket.on('chat message', function(data){
-        $('#messages').append($('<li>').text(data.user + ': ' + data.msg));
+      socket.on('chat message', function(data) {
+        $('#messages').append($('<li>').text(data.name + ': ' + data.msg));
       });
 
-      socket.on('connected', function(users){
+      socket.on('connected', function(users) {
         refreshUsersList(users.users);
       });
 
-      socket.on('disconnected', function(users){
+      socket.on('disconnected', function(users) {
         refreshUsersList(users.users);
       });
     </script>
