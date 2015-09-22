@@ -11,7 +11,7 @@ class TestResponses < Minitest::Test
   end
 
   def test_uppercase_message
-    assert_equal "Woah, chill out!", @responser.get_answer('FOOBAR')
+    assert_equal "Woah, chill out!", @responser.get_answer('FOOBAR BARFOO')
   end
 
   def test_empty_message

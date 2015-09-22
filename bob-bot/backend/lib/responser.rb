@@ -12,11 +12,11 @@ class Responser
   private
 
   def question?(msg)
-    !!(msg =~ /\?$/)
+    !(msg.scan /\?$/).empty?
   end
 
   def capitals?(msg)
-    !!(msg =~ /^[A-Z]+$/)
+    !(msg.scan /^[A-Z\s]+$/).empty?
   end
 
   def not_matched?(msg)
