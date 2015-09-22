@@ -47,6 +47,7 @@ io.on('connection', function(socket){
     var user = findUserBySocketId(data.from)
     data['name'] = user.name;
     io.to(data.to).emit('receive-private-message', data);
+    io.to(data.from).emit('receive-private-message', data);
   });
 
   socket.on('send-public-message', function(data){
