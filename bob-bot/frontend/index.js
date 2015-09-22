@@ -11,7 +11,7 @@ io.on('connection', function(socket){
   users.push(socket.id);
 
   io.emit('connected',
-    { users: users }
+    { users: users, user: socket.id }
   );
 
   socket.on('disconnect', function() {
@@ -21,9 +21,8 @@ io.on('connection', function(socket){
     );
   });
 
-  socket.on('chat message', function(msg){
-    io.emit('chat message', msg);
-    console.log(users);
+  socket.on('chat message', function(data){
+    io.emit('chat message', data);
   });
 });
 
