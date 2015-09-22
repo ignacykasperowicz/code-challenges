@@ -45,7 +45,7 @@ $ ruby app.rb
 
 Server listens at `ws://localhost:8080`
 
-### Frotend
+### Frontend
 Install dependencies:
 ```
 $ npm install
@@ -60,7 +60,15 @@ Open web page at `http://localhost:3000`
 
 ## Usage
 
+#### Chat
  * `chat` shows each message send to chat room with username as a prefix
+ * `Socket.io` is used for communication between users
+
+#### Bot
  * `bob-bot` can be asked by using `bot` mention in message e.g. `bot how was your day?`
  * `chat` and `bot-bot` uses clean WS to interact
- * `Socket.io` is used for communication between users
+ * on chat window only `bob-bot` response is shown
+
+#### Private messages
+ * private message can be sent to a user by using mention e.g. `user1234 this is for your eyes only`
+ * private message is marked as orange
