@@ -23,3 +23,37 @@ This is a simple real time, browser based chat room to interface with Bob as fol
 * Private Messages - Each user should be able to send/receive private messages.
 * Bob should be able to listen, and respond to both the public lobby, and his own private messages.
 * Write tests to assess the above is working correctly.
+
+
+## Setup
+
+### Backend
+Install dependencies:
+```
+$ bundle install
+```
+
+Validate tests:
+```
+$ ruby tests/responser_test.rb
+```
+
+Run server:
+```
+$ ruby app.rb
+```
+
+Server listens at `ws://localhost:8080`
+
+### Frotend
+Install dependencies:
+```
+$ npm install
+```
+
+Run server:
+```
+$ node index.js
+```
+
+Open web page at `http://localhost:3000`
