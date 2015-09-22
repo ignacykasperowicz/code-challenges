@@ -5,30 +5,71 @@
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
       body { font: 13px Helvetica, Arial; }
-      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-      #messages { list-style-type: none; margin: 0; padding: 0; }
-      #messages li { padding: 5px 10px; }
-      #messages li:nth-child(odd) { background: #eee; }
+      form { padding: 3px; position: fixed; bottom: 0; width: 100%; }
+      #messages, #users { list-style-type: none; margin: 0; padding: 0; }
+      #messages, #users li { padding-left: 5px ; }
+      #messages, #users li:nth-child(odd) { background: #eee; }
+      #users { border-left: 1px solid black; }
+      .container-fluid { padding: 0 !important; }
     </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   </head>
   <body>
-    <ul id="messages"></ul>
-    <form action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
-    </form>
+    <div class="container-fluid" id="room">
+      <div class="row">
+        <div class="col-md-10">
+          <ul id="messages"></ul>
+        </div>
+        <div class="col-md-2">
+          <ul id="users">
+          </ul>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <form action="" class="">
+            <div class="row">
+              <div class="col-md-10">
+                <input id="m" autocomplete="off" class="form-control input-lg" type="text" />
+              </div>
+              <div class="col-md-2">
+                <button type="submit" class="btn btn-success">Send</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.js"></script>
     <script>
       var socket = io();
+
+      var refreshUsersList = function(users) {
+        $('#users').text('');
+        _.each(users.users, function(user) {
+          $('#users').append($('<li>').text(user));
+        });
+      };
+
       $('form').submit(function(){
         socket.emit('chat message', $('#m').val());
         $('#m').val('');
         return false;
       });
+
       socket.on('chat message', function(msg){
         $('#messages').append($('<li>').text(msg));
+      });
+
+      socket.on('connected', function(users){
+        refreshUsersList(users);
+      });
+
+      socket.on('disconnected', function(users){
+        refreshUsersList(users);
       });
     </script>
   </body>
